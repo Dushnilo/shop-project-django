@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: your_postgres_name
+      POSTGRES_USER: your_postgres_user
+      POSTGRES_PASSWORD: your_postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  shop:
+    build:
+      context: ./shop
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./shop:/app
+      - media_data:/app/media/
+      - static_data:/app/static/
+    environment:
+      SECRET_KEY: 'your_secret_key'
+      DJANGO_DEBUG: "False"
+      ALLOWED_HOSTS: "your_allowed_hosts"
+      SITE_URL: "your_site_url"
+      YOOKASSA_SHOP_ID: "your_yookassa_shop_id"
+      YOOKASSA_SECRET_KEY: "your_yookassa_secret_key"
+      TELEGRAM_BOT_TOKEN: 'your_telegram_bot_token'
+      POSTGRES_NAME: "your_postgres_name"
+      POSTGRES_USER: "your_postgres_user"
+      POSTGRES_PASSWORD: "your_postgres_password"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:1.19.3
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_data:/var/html/static/
+      - media_data:/var/html/media/
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - shop
+    restart: unless-stopped
+
+volumes:
+  media_data:
+  static_data:
+  postgres_data:

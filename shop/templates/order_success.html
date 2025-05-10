@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказ оформлен{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0">Заказ успешно оплачен!</h2>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Детали заказа</h4>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.item.name }}</td>
+                            <td>{{ item.price }} ₽</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Итого:</th>
+                            <th>{{ order.total_amount }} ₽</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="alert alert-info mt-4">
+                <p>Мы свяжемся с вами.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-6">
+            <button id="checkout-btn" class="btn btn-primary w-100 py-3"onclick="location.href='{% url 'home' %}'">
+                Вернуться на главную
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Ошибка оформления заказа</h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">При обработке вашего заказа возникла ошибка. Пожалуйста, попробуйте еще раз.</p>
+
+                    {% comment %} <div class="d-flex justify-content-between">
+                        <a href="{% url 'cart' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Вернуться в корзину
+                        </a>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 offset-md-6">
+                    <button id="checkout-btn" class="btn btn-primary w-100 py-3"onclick="location.href='{% url 'cart' %}'">
+                        Вернуться в корзину
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
